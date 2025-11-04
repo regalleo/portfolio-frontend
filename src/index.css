@@ -1,0 +1,395 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   GLOBAL STYLES - DARK MODE BY DEFAULT
+   ======================================== */
+
+   html {
+    color-scheme: dark;
+  }
+  
+  body {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    margin: 0;
+    padding: 0;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  } 
+  
+  #root {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  @layer base {
+    * {
+      @apply scroll-smooth;
+    }
+    
+    ::selection {
+      @apply bg-primary-500 text-white;
+    }
+  }
+  
+  @layer components {
+    .gradient-text {
+      @apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
+    }
+    
+    .gradient-bg {
+      @apply bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500;
+    }
+    
+    .btn-primary {
+      @apply px-8 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300;
+    }
+    
+    .btn-outline {
+      @apply px-8 py-3 border-2 border-primary-500 text-primary-500 font-semibold rounded-lg hover:bg-primary-500 hover:text-white transition-all duration-300;
+    }
+    
+    .card {
+      @apply bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-800;
+    }
+  }
+/* ========================================
+   LOADER & ANIMATIONS
+   ======================================== */
+
+   .loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #667eea;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: rotation 1s linear infinite;
+  }
+  
+  @keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+/* ========================================
+   ZEEJ-STYLE WITH VISIBLE RAINBOW SHINE
+   ======================================== */
+
+   .zeej-letter {
+    position: relative;
+    font-size: 7vw;           /* Adjusted from 7vw to 10vw for your needs */
+    font-weight: 900;
+    line-height: 1;
+    font-family: 'SF Pro Display', 'Segoe UI', 'Roboto', -apple-system, sans-serif;
+    display: inline-block;
+    letter-spacing: -0.03em;
+    color: transparent;
+    
+    /* Metallic Chrome Base */
+    background: linear-gradient(
+      175deg,
+      #404040 0%,
+      #606060 20%,
+      #909090 40%,
+      #d0d0d0 55%,
+      #ffffff 60%,
+      #d0d0d0 65%,
+      #a0a0a0 80%,
+      #707070 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Strong Shadow */
+    filter: drop-shadow(4px 8px 12px rgba(0, 0, 0, 0.9));
+  }
+  
+  /* Rainbow Shine Effect - INSIDE the letters */
+  .zeej-letter::before {
+    content: attr(data-letter);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* Rainbow Gradient */
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(255, 0, 150, 1) 38%,
+      rgba(255, 120, 0, 1) 41%,
+      rgba(255, 220, 0, 1) 44%,
+      rgba(0, 255, 180, 1) 47%,
+      rgba(80, 150, 255, 1) 50%,
+      rgba(180, 50, 255, 1) 53%,
+      transparent 61%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Animate the rainbow sweep */
+    animation: rainbowMove 5s linear infinite;
+    
+    z-index: 2;
+  }
+/*Colorful Glow Behind */
+  .zeej-letter::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 110%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 0, 150, 0.4),
+      rgba(100, 150, 255, 0.3),
+      transparent 70%
+    );
+    filter: blur(35px);
+    opacity: 0.6;
+    animation: glowPulse 2.5s ease-in-out infinite;
+    z-index: -1;
+  }
+  
+  /* Rainbow Movement Animation */
+  @keyframes rainbowMove {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  /* Glow Pulse */
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.4;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+  } 
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .zeej-letter {
+      font-size: 7vw;
+    }
+  }
+
+ /* ZANJEEL-Style Light Hero */
+
+/* Light mode background */
+#home {
+  position: relative;
+  background: linear-gradient(180deg, #42177b 0%, #1d0d4f 50%, #000000 100%);
+}
+
+/* Optional: Film grain overlay */
+#home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
+  background-size: 160px 160px;
+  z-index: 1;
+}
+
+/* Optional: Vignette overlay */
+#home::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
+  z-index: 1;
+}
+
+
+/* Smooth transitions */
+a, button {
+  transition: all 0.3s ease;
+}
+
+/* Text rendering */
+h1, h2, h3, h4, h5, h6 {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Cloud animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Hero Title Font Style */
+.hero-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}
+/* Bitmoji Carousel Animations */
+
+@keyframes fadeInBitmoji {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOutBitmoji {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* Drop shadow for bitmoji */
+.bitmoji-image {
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15))
+          drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .bitmoji-container {
+    transform: scale(0.85);
+  }
+}
+
+/* Carousel indicator */
+.carousel-dot {
+  transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+  width: 24px;
+  background-color: #1e40af;
+}
+/* Contact Button Wobble Animation */
+
+@keyframes wobble {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(-8deg) scale(1.08);
+  }
+  50% {
+    transform: rotate(8deg) scale(1.08);
+  }
+  75% {
+    transform: rotate(-5deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Glowing pulse effect */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.6);
+  }
+}
+
+/* Rotating border */
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* SVG text animation */
+text textPath {
+  animation: textMove 20s linear infinite;
+}
+
+@keyframes textMove {
+  0% {
+    startOffset: 0%;
+  }
+  100% {
+    startOffset: 100%;
+  }
+}
+
+/* Contact button hover state */
+.contact-button:hover {
+  animation: wobble 0.6s ease-in-out forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  svg text {
+    font-size: 12px;
+  }
+}
+/* Circular Contact Text */
+svg text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: 8px;
+}
+
+svg text textPath {
+  animation: none;
+}
+
+/* Smooth SVG animation */
+svg motion {
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  svg motion {
+    animation: none !important;
+  }
+}
