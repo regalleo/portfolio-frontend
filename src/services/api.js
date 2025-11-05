@@ -38,7 +38,11 @@ export const aboutAPI = {
 };
 
 export const contactAPI = {
-  submit: (data) => api.post('/contact', data),
+  submit: (data) => api.post('/contact', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
   sendInterestEmail: (data) => api.post('/contact/interest', data),
 };
 

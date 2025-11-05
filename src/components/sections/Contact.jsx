@@ -93,26 +93,38 @@ const Contact = () => {
     }
   };
 
-  const onSubmit = async (data) => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
-      return;
+  const handleNext = async () => {
+    // Validate current step fields before proceeding
+    let fieldsToValidate = [];
+    if (currentStep === 1) {
+      fieldsToValidate = ['name', 'email'];
+    } else if (currentStep === 2) {
+      fieldsToValidate = ['subject'];
     }
 
+    const isStepValid = await trigger(fieldsToValidate);
+    if (isStepValid) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', data.name);
-      formDataToSend.append('email', data.email);
-      formDataToSend.append('subject', data.subject);
-      formDataToSend.append('message', data.message);
+      const formData = new FormData();
+      formData.append('contact', new Blob([JSON.stringify({
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message
+      })], { type: 'application/json' }));
 
       if (uploadedFile) {
-        formDataToSend.append('attachment', uploadedFile);
+        formData.append('file', uploadedFile);
       }
 
-      await contactAPI.submit(formDataToSend);
+      await contactAPI.submit(formData);
       toast.success('Message sent successfully! I\'ll get back to you soon.');
       reset();
       setUploadedFile(null);
@@ -849,38 +861,43 @@ const Contact = () => {
                     </Button>
                   )}
 
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting || (currentStep === 3 && !isValid)}
-                    className={`flex items-center justify-center space-x-3 px-6 py-3 font-semibold rounded-xl shadow-lg transition-all duration-300 ml-auto disabled:opacity-50 disabled:cursor-not-allowed ${
-                      currentStep === 3
-                        ? isValid
-                          ? isDarkMode
-                            ? 'bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white hover:shadow-cyan-500/50'
-                            : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white hover:shadow-blue-500/50'
-                          : 'bg-gray-500 cursor-not-allowed'
-                        : isDarkMode
+                  {currentStep < 3 ? (
+                    <Button
+                      type="button"
+                      onClick={handleNext}
+                      disabled={isSubmitting}
+                      className={`flex items-center justify-center space-x-3 px-6 py-3 font-semibold rounded-xl shadow-lg transition-all duration-300 ml-auto disabled:opacity-50 disabled:cursor-not-allowed ${
+                        isDarkMode
                           ? 'bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white hover:shadow-cyan-500/50'
                           : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white hover:shadow-blue-500/50'
-                    }`}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="loader-small"></div>
-                        <span>Sending...</span>
-                      </>
-                    ) : currentStep === 3 ? (
-                      <>
-                        <FaPaperPlane className="text-lg" />
-                        <span>Send Message</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Next</span>
-                        <FaArrowRight />
-                      </>
-                    )}
-                  </Button>
+                      }`}
+                    >
+                      <span>Next</span>
+                      <FaArrowRight />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className={`flex items-center justify-center space-x-3 px-6 py-3 font-semibold rounded-xl shadow-lg transition-all duration-300 ml-auto disabled:opacity-50 disabled:cursor-not-allowed ${
+                        isDarkMode
+                          ? 'bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white hover:shadow-cyan-500/50'
+                          : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white hover:shadow-blue-500/50'
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="loader-small"></div>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaPaperPlane className="text-lg" />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </Button>
+                  )}
                 </div>
               </form>
             </div>
