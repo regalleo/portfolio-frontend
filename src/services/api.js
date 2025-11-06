@@ -22,29 +22,34 @@ api.interceptors.response.use(
 
 // Skills API
 export const skillsAPI = {
-  getAll: () => api.get('/skills'),
+  getAll: async () => {
+    const res = await api.get('/skills');
+    return Array.isArray(res) ? res : res?.data || [];
+  },
   getByCategory: (category) => api.get(`/skills/category/${category}`),
 };
 
 // Projects API
 export const projectsAPI = {
-  getAll: () => api.get('/projects'),
+  getAll: async () => {
+    const res = await api.get('/projects');
+    return Array.isArray(res) ? res : res?.data || [];
+  },
   getFeatured: () => api.get('/projects/featured'),
   getByCategory: (category) => api.get(`/projects/category/${category}`),
 };
 
 // Experience API
 export const experienceAPI = {
-  getAll: () => api.get('/experience'),
+  getAll: async () => {
+    const res = await api.get('/experience');
+    return Array.isArray(res) ? res : res?.data || [];
+  },
 };
 
 // About API
 export const aboutAPI = {
-  getPrimary: async () => {
-    const res = await api.get('/about/primary');
-    // Wrap single object in an array to safely use map in frontend
-    return Array.isArray(res) ? res : [res];
-  },
+  getPrimary: () => api.get('/about/primary'),
   getAll: () => api.get('/about'),
   getById: (id) => api.get(`/about/${id}`),
 };
