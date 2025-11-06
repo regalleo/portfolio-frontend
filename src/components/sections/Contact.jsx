@@ -6,7 +6,6 @@ import * as yup from 'yup';
 import toast from 'react-hot-toast';
 import SectionTitle from '../ui/SectionTitle';
 import Button from '../ui/Button';
-import { contactAPI } from '../../services/api';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane, FaArrowLeft, FaArrowRight, FaCheck, FaCopy, FaUpload, FaTimes, FaFileAlt } from 'react-icons/fa';
 import { useTheme } from '../../context/ThemeContext';
 
