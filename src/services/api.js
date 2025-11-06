@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Make sure REACT_APP_API_ENDPOINT is set in .env
-const API_BASE_URL = import.meta.env.REACT_APP_API_ENDPOINT + '/api';
+const API_BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
