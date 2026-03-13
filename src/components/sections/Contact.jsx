@@ -112,24 +112,33 @@ const Contact = () => {
 
     try {
       const formData = new FormData();
-      formData.append('contact', new Blob([JSON.stringify({
-        name: data.name,
-        email: data.email,
-        subject: data.subject,
-        message: data.message
-      })], { type: 'application/json' }));
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('subject', data.subject || '');
+      formData.append('message', data.message);
 
       if (uploadedFile) {
         formData.append('file', uploadedFile);
       }
 
-      await contactAPI.submit(formData);
-      toast.success('Message sent successfully! I\'ll get back to you soon.');
-      reset();
-      setUploadedFile(null);
-      setCurrentStep(1);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+      // Use direct fetch instead of API
+      const baseUrl = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080';
+      const response = await fetch(baseUrl + '/api/contact', {
+        method: 'POST',
+        body: formData
+      });
+      const result = await response.json();
+      
+      if (result.success) {
+        toast.success('Message sent successfully! I\'ll get back to you soon.');
+        reset();
+        setUploadedFile(null);
+        setCurrentStep(1);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } else {
+        throw new Error(result.message || 'Failed to send');
       }
     } catch (error) {
       toast.error('Failed to send message. Please try again.');
@@ -937,22 +946,32 @@ const Contact = () => {
                 if (email) {
                   setIsSubmitting(true);
                   try {
-                    // Send email to user
-                    await contactAPI.sendInterestEmail({ email });
-                    toast.success('Thank you for showing interest! We\'ve sent you a confirmation email.', {
-                      duration: 4000,
-                      position: 'bottom-center',
-                      style: {
-                        background: isDarkMode ? '#10b981' : '#059669',
-                        color: '#ffffff',
-                        borderRadius: '12px',
-                        padding: '16px',
-                        fontSize: '16px',
-                        fontWeight: '500',
-                      },
+                    // Send email to user - use simple fetch directly
+                    const baseUrl = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080';
+                    const url = baseUrl + '/api/contact/interest';
+                    const response = await fetch(url, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email })
                     });
-                    e.target.reset();
+                    const result = await response.json();
+                    if (result.success) {
+                      toast.success(response.message || 'Thank you for showing interest!', {
+                        duration: 4000,
+                        position: 'bottom-center',
+                        style: {
+                          background: isDarkMode ? '#10b981' : '#059669',
+                          color: '#ffffff',
+                          borderRadius: '12px',
+                          padding: '16px',
+                          fontSize: '16px',
+                          fontWeight: '500',
+                        },
+                      });
+                      e.target.reset();
+                    }
                   } catch (error) {
+                    console.error('Interest email error:', error);
                     toast.error('Failed to send email. Please try again.', {
                       duration: 3000,
                       position: 'bottom-center',

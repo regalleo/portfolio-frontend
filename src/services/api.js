@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // Make sure REACT_APP_API_ENDPOINT is set in .env
-const API_BASE_URL = import.meta.env.VITE_API_ENDPOINT + '/api';
+const API_BASE_URL = (import.meta.env.VITE_API_ENDPOINT || '') + '/api';
+
+console.log('API_BASE_URL:', API_BASE_URL);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -62,7 +64,15 @@ export const contactAPI = {
         'Content-Type': 'multipart/form-data',
       },
     }),
-  sendInterestEmail: (data) => api.post('/contact/interest', data),
+  sendInterestEmail: async (data) => {
+    const baseUrl = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080';
+    const response = await fetch(baseUrl + '/api/contact/interest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  },
 };
 
 export default api;

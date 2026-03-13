@@ -718,6 +718,10 @@ const About = () => {
               </h4>
 
               {/* Social Icons Grid */}
+              <div className="mb-6">
+                <h4 className={`text-xl font-bold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                </h4>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 {/* Email */}
                 {about?.email && (
@@ -767,44 +771,40 @@ const About = () => {
                 )}
 
                 {/* GitHub */}
-                {about?.githubUrl && (
-                  <motion.a
-                    href={about.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex flex-col items-center group"
-                  >
-                    <div className="relative mb-4">
-                      <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
-                      <div className="relative bg-gradient-to-br from-gray-700 to-gray-800 p-6 rounded-2xl shadow-2xl group-hover:shadow-gray-500/50 transition-all duration-300">
-                        <FaGithub className="text-3xl text-white" />
-                      </div>
+                <motion.a
+                  href={about?.githubUrl || "https://github.com/regalleo"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex flex-col items-center group"
+                >
+                  <div className="relative mb-4">
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-800 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
+                    <div className="relative bg-gradient-to-br from-gray-700 to-gray-800 p-6 rounded-2xl shadow-2xl group-hover:shadow-gray-500/50 transition-all duration-300">
+                      <FaGithub className="text-3xl text-white" />
                     </div>
-                    <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">GitHub</span>
-                  </motion.a>
-                )}
+                  </div>
+                  <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">GitHub</span>
+                </motion.a>
 
                 {/* LinkedIn */}
-                {about?.linkedinUrl && (
-                  <motion.a
-                    href={about.linkedinUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex flex-col items-center group"
-                  >
-                    <div className="relative mb-4">
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
-                      <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow-2xl group-hover:shadow-blue-500/50 transition-all duration-300">
-                        <FaLinkedin className="text-3xl text-white" />
-                      </div>
+                <motion.a
+                  href={about?.linkedinUrl || "https://www.linkedin.com/in/raj-shekhar-singh-aa16ab245/"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex flex-col items-center group"
+                >
+                  <div className="relative mb-4">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-all duration-300"></div>
+                    <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow-2xl group-hover:shadow-blue-500/50 transition-all duration-300">
+                      <FaLinkedin className="text-3xl text-white" />
                     </div>
-                    <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">LinkedIn</span>
-                  </motion.a>
-                )}
+                  </div>
+                  <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors text-center">LinkedIn</span>
+                </motion.a>
               </div>
 
               {/* Location & Resume Section */}
